@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/include",
-                "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/src",
+                "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/BallTossCode/include",
+                "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/BallTossCode/src",
                 "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/variants/standard",
                 "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -22,8 +22,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/include",
-                    "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/src",
+                    "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/BallTossCode/include",
+                    "C:/Users/Administrador/Documents/PlatformIO/Projects/BallToss/BallTossCode/src",
                     "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/variants/standard",
                     "C:/Users/Administrador/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
