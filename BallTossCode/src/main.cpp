@@ -7,12 +7,13 @@
 
 
 //Agregar comentarios
-//Añadir vector de salida al display
 
 #include <Arduino.h>
 
 #define DISP PORTB
 #define MUX PORTD
+
+const int display[10]={0,1,2,3,4,5,6,7,8,9};
 
 const int m_digit=2; //numero de digitos
 volatile int s_digit=0;//seleccion de digito
@@ -29,13 +30,13 @@ int acum=0;
 void multiplex(){
   if (s_digit<(m_digit-1)){
       MUX=0;
-      DISP=score%10;
+      DISP=display[score%10];
       MUX=(1<<(4+s_digit));
       s_digit++;
   }
     else{
       MUX=0;
-      DISP=score/10;
+      DISP=display[score/10];
       MUX=(1<<(4+s_digit));
       s_digit=0;
     } 
@@ -44,7 +45,7 @@ void multiplex(){
 void blinking(int point){
   MUX=0;
   while(odd<loops){
-    DISP=point;
+    DISP=display[point];
     while(acum<count){
       if(odd%2){
         MUX|=(1<<4);
