@@ -7,7 +7,8 @@
 
 
 //Agregar comentarios
-//Corregir funcion de puntaje maximo y reseteo automatico
+//Añadir vector de salida al display
+
 #include <Arduino.h>
 //CORREGIR PUERTOS
 const int m_digit=2; //numero de digitos
@@ -57,18 +58,18 @@ void blinking(int point){
   odd=0;
 }
 
-int scoreCheck(){
+void scoreCheck(){
   if(score>=m_score){
+    score=m_score;
+    delay(500);
     doAni=1;
     blinking(0);
     score=0;
-    return 1;
   }
   else{
     doAni=0;
     delay(500);
   }
-  return 0;
 }
 
 void setup() {
@@ -102,37 +103,25 @@ void loop() {
   switch (PINC)
   {
   case 6:
-    if(scoreCheck()){
-      break;
-    }
-    else{
       doAni=1;
       blinking(1);
       score++;
-    }
-    break;
+      scoreCheck();
+      break;
 
   case 5:
-    if(scoreCheck()){
-      break;
-    }
-    else{
       doAni=1;
       blinking(2);
       score+=2;
-    }
-    break;
+      scoreCheck();
+      break;
 
   case 3:
-    if(scoreCheck()){
-      break;
-    }
-    else{
       doAni=1;
       blinking(3);
       score+=3;
-    }
-    break;
+      scoreCheck();
+      break;
   
   default:
     break;
