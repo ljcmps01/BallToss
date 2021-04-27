@@ -1,5 +1,5 @@
   //////////////////////////////
-  // Descripcion de puertos   //
+  //  Descripcion de puertos  //
   //PORTB: 4511(0-3)          //
   //PORTC: POINTS(0-2)        //
   //PORTD: MUX(4-5)           //
@@ -10,7 +10,10 @@
 //Añadir vector de salida al display
 
 #include <Arduino.h>
-//CORREGIR PUERTOS
+
+#define DISP PORTB
+#define MUX PORTD
+
 const int m_digit=2; //numero de digitos
 volatile int s_digit=0;//seleccion de digito
 
@@ -25,29 +28,29 @@ int acum=0;
 
 void multiplex(){
   if (s_digit<(m_digit-1)){
-      PORTD=0;
-      PORTB=score%10;
-      PORTD=(1<<(4+s_digit));
+      MUX=0;
+      DISP=score%10;
+      MUX=(1<<(4+s_digit));
       s_digit++;
   }
     else{
-      PORTD=0;
-      PORTB=score/10;
-      PORTD=(1<<(4+s_digit));
+      MUX=0;
+      DISP=score/10;
+      MUX=(1<<(4+s_digit));
       s_digit=0;
     } 
 }
 
 void blinking(int point){
-  PORTD=0;
+  MUX=0;
   while(odd<loops){
-    PORTB=point;
+    DISP=point;
     while(acum<count){
       if(odd%2){
-        PORTD|=(1<<4);
+        MUX|=(1<<4);
       }
       else{
-        PORTD&=~(1<<4);
+        MUX&=~(1<<4);
       }
     }
     acum=0;
@@ -76,14 +79,14 @@ void setup() {
   //////////////////////////////
   // Configuracion de puertos //
   //////////////////////////////
-  PORTD=0;
+  MUX=0;
   DDRD|=48;
 
-  PORTB=0;
+  DISP=0;
   DDRB=15;
 
   PORTC|=7;
-  PORTC&=~7;
+  DDRC&=~7;
 
   //////////////////////////////
   //  Configuracion de timer  //
