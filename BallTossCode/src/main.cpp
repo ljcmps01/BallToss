@@ -15,54 +15,71 @@
 
 const int display[10]={0,1,2,3,4,5,6,7,8,9};
 
-const int m_digit=2; //numero de digitos
+const int m_digit=3; //numero de digitos
 volatile int s_digit=0;//seleccion de digito
+int digits[m_digit];
 
 volatile int score=0; //puntaje
-const int m_score=9; //maximo puntaje posible
+const int m_score=50; //maximo puntaje posible
 
-bool doAni=0;
-int loops=6;
-int count=20;
+bool doAni=0; //Habilitador de animacion
+int loops=6;  //Cantidad de parpadeos de la animacion (cantidad de parpadeos=loop/2)
+int count=50;  //Duracion del  on off de la animacion
 int odd=0;
 int acum=0;
 
-void multiplex(){
-  if (s_digit<(m_digit-1)){
-      MUX=0;
-      DISP=display[score%10];
-      MUX=(1<<(4+s_digit));
-      s_digit++;
-  }
-    else{
-      MUX=0;
-      DISP=display[score/10];
-      MUX=(1<<(4+s_digit));
-      s_digit=0;
-    } 
+void simplify(int n){
+  int acum=0;
+  int resto=n;
+  while (acum<m_digit)
+  {
+    digits[acum]=resto%10;
+    acum++;
+    resto/=10;
+  } 
 }
 
+//funcion de multiplexado
+void multiplex(){
+    if (s_digit<m_digit){
+        MUX=0;
+        DISP=display[digits[s_digit]];
+        MUX=(1<<(4+s_digit));
+        s_digit++;
+    }
+      else{
+        s_digit=0;
+      } 
+}
+
+
+//funcion de animacion de parpadeo 
 void blinking(int point){
   MUX=0;
   while(odd<loops){
-    DISP=display[point];
+    //TO-DO: Arreglar para que funcione con simplify()
+    simplify(point);
     while(acum<count){
       if(odd%2){
-        MUX|=(1<<4);
+        multiplex();
       }
       else{
-        MUX&=~(1<<4);
+        MUX=0;
       }
     }
     acum=0;
     odd++;
   }
+  simplify(score);
   doAni=0;
   acum=0;
   odd=0;
 }
 
+
+//Funcion que verifica si se llegó al puntaje maximo y llama a Simplify
 void scoreCheck(){
+  simplify(score);
   if(score>=m_score){
     score=m_score;
     delay(500);
@@ -99,8 +116,10 @@ void setup() {
   TCCR1B|=(1<<0)|(1<<2); 
   // Habilito modo de comparacion y valor del registro de comparacion
   TCCR1B|=(1<<3);
-  OCR1A=156;  //Mas o menos 10ms
+  OCR1A=80;  //Mas o menos 10ms
   TIMSK1|=(1<<1);
+
+  Serial.begin(9600);
 }
 
 void loop() {
