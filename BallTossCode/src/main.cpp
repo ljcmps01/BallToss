@@ -13,14 +13,19 @@
 #define DISP PORTB
 #define MUX PORTD
 
-const int display[10]={0,1,2,3,4,5,6,7,8,9};
+const int display[10]={0,1,8,9,4,5,12,13,2,3};
 
 const int m_digit=3; //numero de digitos
 volatile int s_digit=0;//seleccion de digito
 int digits[m_digit];
 
 volatile int score=0; //puntaje
-const int m_score=50; //maximo puntaje posible
+const int m_score=19; //maximo puntaje posible
+const int lpoint=1;  //menor punto
+const int mpoint=2;  //Punto normal
+const int hpoint=5;  //punto mayor
+
+
 
 bool doAni=0; //Habilitador de animacion
 int loops=6;  //Cantidad de parpadeos de la animacion (cantidad de parpadeos=loop/2)
@@ -101,7 +106,7 @@ void setup() {
   DDRD|=48;
 
   DISP=0;
-  DDRB=15;
+  DDRB=31;
 
   PORTC|=7;
   DDRC&=~7;
@@ -127,22 +132,22 @@ void loop() {
   {
   case 6:
       doAni=1;
-      blinking(1);
-      score++;
+      blinking(lpoint);
+      score+=lpoint;
       scoreCheck();
       break;
 
   case 5:
       doAni=1;
-      blinking(2);
-      score+=2;
+      blinking(mpoint);
+      score+=mpoint;
       scoreCheck();
       break;
 
   case 3:
       doAni=1;
-      blinking(3);
-      score+=3;
+      blinking(hpoint);
+      score+=hpoint;
       scoreCheck();
       break;
   
@@ -162,5 +167,3 @@ ISR(TIMER1_COMPA_vect){
     multiplex();
   }
 }
-
-
